@@ -3,3 +3,4 @@ openai
 pinecone-client
 matplotlib
 langchain
+python-dotenv
