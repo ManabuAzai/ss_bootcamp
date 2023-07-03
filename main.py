@@ -10,25 +10,27 @@ import pinecone
 from dotenv import load_dotenv
 load_dotenv()
 
-embeddings = OpenAIEmbeddings(openai_api_key=os.environ["OPENAI_API_KEY"])
+secrets = st.secrets
+embeddings = OpenAIEmbeddings(openai_api_key=secrets["OPENAI_API_KEY"])
+pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
 
-st.header("Embedding")
-with st.sidebar:
-    st.header("DB管理")
-    db_name = st.text_area("データべース名", "testdb")
-    if st.button("DBを作成する"):
-        pinecone.init(api_key=os.environ["PINECONE_API_KEY"], environment=os.environ["PINECONE_ENVIRONMENT"])
-        pinecone.create_index(db_name, dimension=1536, metric="dotproduct")
-    if st.button("DBをリセットする"):
-        pinecone.init(api_key=os.environ["PINECONE_API_KEY"], environment=os.environ["PINECONE_ENVIRONMENT"])
-        pinecone.delete_index(db_name)
+# st.header("Embedding")
+# with st.sidebar:
+#     st.header("DB管理")
+#     db_name = st.text_area("データべース名", "testdb")
+#     if st.button("DBを作成する"):
+#         pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
+#         pinecone.create_index(db_name, dimension=1536, metric="dotproduct")
+#     if st.button("DBをリセットする"):
+#         pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
+#         pinecone.delete_index(db_name)
 
 tab1, tab2= st.tabs(["Text", "PDF"])
 with tab1:
     input_text = st.text_area("検索したい文章を入力してください")
     st.write("例）https://en.wikipedia.org/wiki/OpenAI")
     if st.button("テキストをエンベッド"):
-        pinecone.init(api_key=os.environ["PINECONE_API_KEY"], environment=os.environ["PINECONE_ENVIRONMENT"])
+        pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
         if input_text:
             with tempfile.NamedTemporaryFile(mode='w+t', delete=False) as tmp:
                 tmp.write(input_text)
@@ -43,7 +45,7 @@ with tab1:
 with tab2:
     input_pdf = st.file_uploader("PDFを選んでください", type=['pdf'])
     if st.button("PDFをエンベッド"):
-        pinecone.init(api_key=os.environ["PINECONE_API_KEY"], environment=os.environ["PINECONE_ENVIRONMENT"])
+        pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
         if input_pdf:
             with tempfile.NamedTemporaryFile(mode='wb', delete=False, suffix=".pdf") as tmp:
                 tmp.write(input_pdf.read())
@@ -61,7 +63,7 @@ st.header("Using")
 query = st.text_input("検索したい情報を入力してください")
 if st.button("検索する"):
 
-    pinecone.init(api_key=os.environ["PINECONE_API_KEY"], environment=os.environ["PINECONE_ENVIRONMENT"])
+    pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
     vectorstore = Pinecone.from_existing_index(index_name=db_name, embedding=embeddings, namespace="pdf")
     qa = VectorDBQA.from_chain_type(
         llm=OpenAI(model_name="gpt-4"),
