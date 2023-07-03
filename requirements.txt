@@ -4,3 +4,4 @@ pinecone-client
 matplotlib
 langchain
 python-dotenv
+tiktoken
