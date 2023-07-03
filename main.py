@@ -24,6 +24,8 @@ if "pinecone_initialized" not in st.session_state:
 #         pinecone.delete_index(db_name)
 
 with st.sidebar:
+    st.header("Emdedding")
+
     input_text = st.text_area("テキストを入力してください")
     st.write("例）https://en.wikipedia.org/wiki/OpenAI")
     if st.button("テキストをエンベッド"):
