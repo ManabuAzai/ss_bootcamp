@@ -19,16 +19,12 @@ if "pinecone_initialized" not in st.session_state:
 #     st.header("DB管理")
 #     db_name = st.text_area("データべース名", "testdb")
 #     if st.button("DBを作成する"):
-#         pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
 #         pinecone.create_index(db_name, dimension=1536, metric="dotproduct")
 #     if st.button("DBをリセットする"):
-#         pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
 #         pinecone.delete_index(db_name)
 
-
-tab1, tab2= st.tabs(["Text", "PDF"])
-with tab1:
-    input_text = st.text_area("検索したい文章を入力してください")
+with st.sidebar:
+    input_text = st.text_area("テキストを入力してください")
     st.write("例）https://en.wikipedia.org/wiki/OpenAI")
     if st.button("テキストをエンベッド"):
         if input_text:
@@ -42,7 +38,8 @@ with tab1:
             texts = text_splitter.split_documents(documents)
             docsearch =  Pinecone.from_documents(texts, embeddings, index_name="testdb", namespace="pdf")
 
-with tab2:
+    st.markdown("---")
+
     input_pdf = st.file_uploader("PDFを選んでください", type=['pdf'])
     if st.button("PDFをエンベッド"):
         if input_pdf:
@@ -55,8 +52,6 @@ with tab2:
             text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=30)
             texts = text_splitter.split_documents(documents)
             docsearch =  Pinecone.from_documents(texts, embeddings, index_name="testdb", namespace="pdf")
-
-st.markdown("---")
 
 st.header("Using")
 query = st.text_input("検索したい情報を入力してください")
