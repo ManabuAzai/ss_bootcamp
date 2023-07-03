@@ -2,12 +2,12 @@
 
 ## ローカル環境で動かす場合
 
-①必要なパッケージをインストール
+1. 必要なパッケージをインストール
 ```
 pip install -r requirements.txt
 ```
 
-②コメントアウトされている箇所をアンコメントし、下記を削除
+2. コメントアウトされている箇所をアンコメントし、下記を削除
 ```
 secrets = st.secrets
 embeddings = OpenAIEmbeddings(openai_api_key=secrets["OPENAI_API_KEY"])
@@ -16,9 +16,9 @@ if "pinecone_initialized" not in st.session_state:
     st.session_state.pinecone_initialized = True
 ```
 
-③.envファイルにAPIキーを入力
+3. .envファイルにAPIキーを入力
 
-④main.pyを実行
+4. main.pyを実行
 ```
 streamlit run yourpath/main.py
 ```
