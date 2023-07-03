@@ -23,7 +23,6 @@ if "pinecone_initialized" not in st.session_state:
     st.session_state.pinecone_initialized = True
 
 # for making vectorstore
-# st.header("Embedding")
 # with st.sidebar:
 #     st.header("DB管理")
 #     db_name = st.text_area("データべース名", "testdb")
@@ -47,7 +46,7 @@ with st.sidebar:
             os.unlink(tmp_file_name)
             text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=30)
             texts = text_splitter.split_documents(documents)
-            docsearch =  Pinecone.from_documents(texts, embeddings, index_name="testdb", namespace="pdf")
+            docsearch =  Pinecone.from_documents(texts, embeddings, index_name="testdb", namespace="ss_bootcamp")
 
     st.markdown("---")
 
@@ -62,12 +61,12 @@ with st.sidebar:
             os.unlink(tmp_file_name)
             text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=30)
             texts = text_splitter.split_documents(documents)
-            docsearch =  Pinecone.from_documents(texts, embeddings, index_name="testdb", namespace="pdf")
+            docsearch =  Pinecone.from_documents(texts, embeddings, index_name="testdb", namespace="ss_bootcamp")
 
 st.header("Using")
 query = st.text_input("検索したい情報を入力してください")
 if st.button("検索する"):
-    vectorstore = Pinecone.from_existing_index(index_name="testdb", embedding=embeddings, namespace="pdf")
+    vectorstore = Pinecone.from_existing_index(index_name="testdb", embedding=embeddings, namespace="ss_bootcamp")
     qa = VectorDBQA.from_chain_type(
         llm=OpenAI(model_name="gpt-4"),
         chain_type="stuff",
