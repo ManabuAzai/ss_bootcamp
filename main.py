@@ -8,12 +8,21 @@ from langchain.vectorstores import Pinecone
 from langchain import VectorDBQA, OpenAI
 import pinecone
 
+# for using local making .env file and replace below code
+# from dotenv import load_dotenv
+# load_dotenv()
+# embeddings = OpenAIEmbeddings(openai_api_key=os.environ["OPENAI_API_KEY"]) 
+# if "pinecone_initialized" not in st.session_state:
+#     pinecone.init(api_key=os.environ["PINECONE_API_KEY"], environment=os.environ["PINECONE_ENVIRONMENT"])
+#     st.session_state.pinecone_initialized = True
+
 secrets = st.secrets
 embeddings = OpenAIEmbeddings(openai_api_key=secrets["OPENAI_API_KEY"])
 if "pinecone_initialized" not in st.session_state:
     pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
     st.session_state.pinecone_initialized = True
 
+# for making vectorstore
 # st.header("Embedding")
 # with st.sidebar:
 #     st.header("DB管理")
