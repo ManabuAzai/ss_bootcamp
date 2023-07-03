@@ -75,4 +75,8 @@ if st.button("検索する"):
         k=5,
     )
     result = qa({"query": query})
-    st.write(result)
+    st.subheader("Result")
+    st.write(result["result"])
+    st.subheader("Source Documents")
+    for doc in result["source_documents"]:
+        st.write(doc)
