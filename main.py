@@ -10,7 +10,21 @@ import pinecone
 
 secrets = st.secrets
 embeddings = OpenAIEmbeddings(openai_api_key=secrets["OPENAI_API_KEY"])
-pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
+if "pinecone_initialized" not in st.session_state:
+    pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
+    st.session_state.pinecone_initialized = True
+
+# st.header("Embedding")
+# with st.sidebar:
+#     st.header("DB管理")
+#     db_name = st.text_area("データべース名", "testdb")
+#     if st.button("DBを作成する"):
+#         pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
+#         pinecone.create_index(db_name, dimension=1536, metric="dotproduct")
+#     if st.button("DBをリセットする"):
+#         pinecone.init(api_key=secrets["PINECONE_API_KEY"], environment=secrets["PINECONE_ENVIRONMENT"])
+#         pinecone.delete_index(db_name)
+
 
 tab1, tab2= st.tabs(["Text", "PDF"])
 with tab1:
