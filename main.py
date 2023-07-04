@@ -46,7 +46,7 @@ with st.sidebar:
             os.unlink(tmp_file_name)
             text_splitter = CharacterTextSplitter(chunk_size=2000, chunk_overlap=50)
             texts = text_splitter.split_documents(documents)
-            docsearch =  Pinecone.from_documents(texts, embeddings, index_name="testdb", namespace="bootcamp")
+            docsearch =  Pinecone.from_documents(texts, embeddings, index_name="testdb", namespace="ss_bootcamp")
 
     st.markdown("---")
 
@@ -61,12 +61,12 @@ with st.sidebar:
             os.unlink(tmp_file_name)
             text_splitter = CharacterTextSplitter(chunk_size=2000, chunk_overlap=50)
             texts = text_splitter.split_documents(documents)
-            docsearch =  Pinecone.from_documents(texts, embeddings, index_name="testdb", namespace="bootcamp")
+            docsearch =  Pinecone.from_documents(texts, embeddings, index_name="testdb", namespace="ss_bootcamp")
 
 st.header("Using")
 query = st.text_input("検索したい情報を入力してください")
 if st.button("検索する"):
-    vectorstore = Pinecone.from_existing_index(index_name="testdb", embedding=embeddings, namespace="bootcamp")
+    vectorstore = Pinecone.from_existing_index(index_name="testdb", embedding=embeddings, namespace="ss_bootcamp")
     qa = VectorDBQA.from_chain_type(
         llm=OpenAI(model_name="gpt-3.5-turbo-16k"),
         chain_type="stuff",
