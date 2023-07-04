@@ -44,7 +44,7 @@ with st.sidebar:
             loader = TextLoader(tmp_file_name)
             documents = loader.load()
             os.unlink(tmp_file_name)
-            text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=30)
+            text_splitter = CharacterTextSplitter(chunk_size=2000, chunk_overlap=50)
             texts = text_splitter.split_documents(documents)
             docsearch =  Pinecone.from_documents(texts, embeddings, index_name="testdb", namespace="ss_bootcamp")
 
@@ -59,7 +59,7 @@ with st.sidebar:
             loader = PyPDFLoader(tmp_file_name)
             documents = loader.load()
             os.unlink(tmp_file_name)
-            text_splitter = CharacterTextSplitter(chunk_size=500, chunk_overlap=30)
+            text_splitter = CharacterTextSplitter(chunk_size=2000, chunk_overlap=50)
             texts = text_splitter.split_documents(documents)
             docsearch =  Pinecone.from_documents(texts, embeddings, index_name="testdb", namespace="ss_bootcamp")
 
@@ -68,11 +68,11 @@ query = st.text_input("検索したい情報を入力してください")
 if st.button("検索する"):
     vectorstore = Pinecone.from_existing_index(index_name="testdb", embedding=embeddings, namespace="ss_bootcamp")
     qa = VectorDBQA.from_chain_type(
-        llm=OpenAI(model_name="gpt-4"),
+        llm=OpenAI(model_name="gpt-3.5-turbo-16k"),
         chain_type="stuff",
         vectorstore=vectorstore,
         return_source_documents=True,
-        k=5,
+        k=4,
     )
     result = qa({"query": query})
     st.subheader("Result")

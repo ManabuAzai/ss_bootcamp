@@ -7,7 +7,7 @@
 pip install -r requirements.txt
 ```
 
-2. コメントアウトされている箇所をアンコメントし、下記を削除
+1.  コメントアウトされている箇所をアンコメントし、下記を削除
 ```
 secrets = st.secrets
 embeddings = OpenAIEmbeddings(openai_api_key=secrets["OPENAI_API_KEY"])
@@ -16,9 +16,9 @@ if "pinecone_initialized" not in st.session_state:
     st.session_state.pinecone_initialized = True
 ```
 
-3. .envファイルにAPIキーを入力
+1.  .envファイルにAPIキーを入力
 
-4. main.pyを実行
+1.  main.pyを実行
 ```
 streamlit run yourpath/main.py
 ```
