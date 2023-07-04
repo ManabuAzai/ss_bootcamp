@@ -79,4 +79,4 @@ if st.button("検索する"):
     st.write(result["result"])
     st.subheader("Source Documents")
     for doc in result["source_documents"]:
-        st.write(doc)
+        st.markdown(doc)
