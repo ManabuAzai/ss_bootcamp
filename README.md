@@ -22,3 +22,5 @@ if "pinecone_initialized" not in st.session_state:
 ```
 streamlit run yourpath/main.py
 ```
+
+※requirements.txtではバージョンを固定すると安定します。
